@@ -125,3 +125,55 @@ class UserManager:
 	</footer>
 </body>
 </html>
+
+
+
+
+
+
+css
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #F7F7F7;
+	color: #333;
+}
+
+header {
+	background-color: #196998;
+	color: #FFF;
+	padding: 20px;
+}
+
+main {
+	margin: 20px;
+}
+
+section {
+	margin-bottom: 40px;
+}
+
+h1, h2 {
+	font-weight: normal;
+}
+
+li {
+	margin-left: 20px;
+}
+
+a {
+	color: #196998;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #3A3A3A;
+}
+
+footer {
+	background-color: #196998;
+	color: #FFF;
+	padding: 20px;
+	text-align: center;
+}
