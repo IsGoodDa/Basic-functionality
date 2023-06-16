@@ -45,3 +45,41 @@
 ## 关于
 
 凯里十三小学能力测评系统是由凯里市第十三小学开发的一款专业综合能力测评系统。该系统旨在通过科学、准确的测试和评估，为学生的学业发展和成长提供有益的指导和帮助。
+
+# 用户信息管理
+class User:
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+class UserManager:
+    def __init__(self):
+        self.users = []
+
+    # 添加用户
+    def add_user(self, name, age, gender):
+        user = User(name, age, gender)
+        self.users.append(user)
+
+    # 查询用户
+    def query_user(self, name):
+        for user in self.users:
+            if user.name == name:
+                return user
+        return None
+
+    # 修改用户
+    def modify_user(self, name, age=None, gender=None):
+        user = self.query_user(name)
+        if user:
+            if age:
+                user.age = age
+            if gender:
+                user.gender = gender
+
+    # 删除用户
+    def delete_user(self, name):
+        user = self.query_user(name)
+        if user:
+            self.users.remove(user)
