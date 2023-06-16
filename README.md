@@ -83,3 +83,45 @@ class UserManager:
         user = self.query_user(name)
         if user:
             self.users.remove(user)
+            
+            
+            
+            
+            
+            <!DOCTYPE html>
+<html>
+<head>
+	<title>My Information Page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>My Information Page</h1>
+	</header>
+	<main>
+		<section>
+			<h2>About Me</h2>
+			<p>Hello, my name is [name], and I am currently studying/working in [school/company name]. I love [hobbies/interests], and my goal is to [life goal/objective]</p>
+		</section>
+		<section>
+			<h2>My Skills</h2>
+			<ul>
+				<li>Python programming</li>
+				<li>Data analysis</li>
+				<li>HTML/CSS coding</li>
+			</ul>
+		</section>
+		<section>
+			<h2>Contact Me</h2>
+			<p>Email: [email address]</p>
+			<p>Phone: [phone number]</p>
+			<p>LinkedIn: [LinkedIn profile URL]</p>
+		</section>
+	</main>
+	<footer>
+		<p>Copyright © [year].
+	</footer>
+</body>
+</html>
