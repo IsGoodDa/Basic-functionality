@@ -177,3 +177,8 @@ footer {
 	padding: 20px;
 	text-align: center;
 }
+
+
+git add .
+git commit -m "Add personal information"
+git push origin master
