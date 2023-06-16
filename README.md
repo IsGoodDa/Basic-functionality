@@ -42,6 +42,7 @@ def register():
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
+
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -57,6 +58,7 @@ def login():
     return render_template('login.html')
 
 @app.route('/profile', methods=['GET', 'POST'])
+
 def profile():
     if request.method == 'POST':
         user = User.query.filter_by(id=1).first()
