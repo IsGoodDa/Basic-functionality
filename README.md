@@ -1,10 +1,13 @@
 以下是基础功能模块的 Python 代码示例：
 
 from flask import Flask, render_template, request, redirect, url_for, flash
+
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 db = SQLAlchemy(app)
@@ -17,9 +20,11 @@ class User(db.Model):
     role = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
+    
         return '<User %r>' % self.username
 
 @app.route('/register', methods=['GET', 'POST'])
+
 def register():
     if request.method == 'POST':
         username = request.form['username']
