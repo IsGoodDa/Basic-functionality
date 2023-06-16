@@ -1,4 +1,4 @@
-以下是基础功能模块的 Python 代码示例：
+### 以下是基础功能模块的 Python 代码示例：
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 
@@ -118,4 +118,4 @@ if __name__ == '__main__':
 
     app.run(debug=True)
     
-在这个示例中，我们使用 Flask 框架和 SQLAlchemy 作为 ORM 工具来搭建基础功能模块。其中，我们定义了一个 User 数据库模型来存储用户信息，包括用户名、密码、邮箱和角色。我们还定义了注册、登录和个人信息查看和修改等路由函数，并对其进行了相应的处理。最后，我们通过 app.run() 函数来启动应用程序并监听本地的 HTTP 请求。
+#### 在这个示例中，我们使用 Flask 框架和 SQLAlchemy 作为 ORM 工具来搭建基础功能模块。其中，我们定义了一个 User 数据库模型来存储用户信息，包括用户名、密码、邮箱和角色。我们还定义了注册、登录和个人信息查看和修改等路由函数，并对其进行了相应的处理。最后，我们通过 app.run() 函数来启动应用程序并监听本地的 HTTP 请求。
