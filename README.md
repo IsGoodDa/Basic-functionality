@@ -6,113 +6,165 @@
 
 ## Here is a Java code example:
 
-// 学生类
+package com.ruoyi.system.domain;
 
-public class Student {
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import java.util.Date;
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excel.ColumnType;
+import com.ruoyi.common.core.domain.BaseEntity;
 
-    private String id;
-    
-    private String name;
-    
-    private String gender;
-    
-    private int age;
+/**
+ * 系统访问记录表 sys_logininfor
+ * 
+ * @author ruoyi
+ */
+public class SysLogininfor extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
 
-    // 构造函数
-    public Student(String id, String name, String gender, int age) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
+    /** ID */
+    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+    private Long infoId;
+
+    /** 用户账号 */
+    @Excel(name = "用户账号")
+    private String loginName;
+
+    /** 登录状态 0成功 1失败 */
+    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
+    private String status;
+
+    /** 登录IP地址 */
+    @Excel(name = "登录地址")
+    private String ipaddr;
+
+    /** 登录地点 */
+    @Excel(name = "登录地点")
+    private String loginLocation;
+
+    /** 浏览器类型 */
+    @Excel(name = "浏览器")
+    private String browser;
+
+    /** 操作系统 */
+    @Excel(name = "操作系统")
+    private String os;
+
+    /** 提示消息 */
+    @Excel(name = "提示消息")
+    private String msg;
+
+    /** 访问时间 */
+    @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date loginTime;
+
+    public Long getInfoId()
+    {
+        return infoId;
     }
 
-    // Getter 和 Setter 方法
-    public String getId() {
-        return id;
+    public void setInfoId(Long infoId)
+    {
+        this.infoId = infoId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getLoginName()
+    {
+        return loginName;
     }
 
-    public String getName() {
-        return name;
+    public void setLoginName(String loginName)
+    {
+        this.loginName = loginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getStatus()
+    {
+        return status;
     }
 
-    public String getGender() {
-        return gender;
+    public void setStatus(String status)
+    {
+        this.status = status;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public String getIpaddr()
+    {
+        return ipaddr;
     }
 
-    public int getAge() {
-        return age;
+    public void setIpaddr(String ipaddr)
+    {
+        this.ipaddr = ipaddr;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public String getLoginLocation()
+    {
+        return loginLocation;
+    }
+
+    public void setLoginLocation(String loginLocation)
+    {
+        this.loginLocation = loginLocation;
+    }
+
+    public String getBrowser()
+    {
+        return browser;
+    }
+
+    public void setBrowser(String browser)
+    {
+        this.browser = browser;
+    }
+
+    public String getOs()
+    {
+        return os;
+    }
+
+    public void setOs(String os)
+    {
+        this.os = os;
+    }
+
+    public String getMsg()
+    {
+        return msg;
+    }
+
+    public void setMsg(String msg)
+    {
+        this.msg = msg;
+    }
+
+    public Date getLoginTime()
+    {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime)
+    {
+        this.loginTime = loginTime;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("infoId", getInfoId())
+            .append("loginName", getLoginName())
+            .append("ipaddr", getIpaddr())
+            .append("loginLocation", getLoginLocation())
+            .append("browser", getBrowser())
+            .append("os", getOs())
+            .append("status", getStatus())
+            .append("msg", getMsg())
+            .append("loginTime", getLoginTime())
+            .toString();
     }
 }
-
-// 评价记录类
-public class EvaluationRecord {
-
-    private String studentId;
-    
-    private String evaluator;
-    
-    private String content;
-    
-    private Date evaluationTime;
-
-    // 构造函数
-    public EvaluationRecord(String studentId, String evaluator, String content, Date evaluationTime) {
-        this.studentId = studentId;
-        this.evaluator = evaluator;
-        this.content = content;
-        this.evaluationTime = evaluationTime;
-    }
-
-    // Getter 和 Setter 方法
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getEvaluator() {
-        return evaluator;
-    }
-
-    public void setEvaluator(String evaluator) {
-        this.evaluator = evaluator;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getEvaluationTime() {
-        return evaluationTime;
-    }
-
-    public void setEvaluationTime(Date evaluationTime) {
-        this.evaluationTime = evaluationTime;
-    }
-}
-
 
 
 # <body>
