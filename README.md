@@ -58,9 +58,13 @@ public class Student {
 
 // 评价记录类
 public class EvaluationRecord {
+
     private String studentId;
+    
     private String evaluator;
+    
     private String content;
+    
     private Date evaluationTime;
 
     // 构造函数
