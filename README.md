@@ -107,7 +107,6 @@ public class EvaluationRecord {
 
 
 
-</head>
 <body>
   <header>
     <div class="logo">My Github Page</div>
