@@ -2,9 +2,9 @@
 
 # This basic functional module is the core module of the developmental assessment system, providing the basic functions for evaluating and recording students. Users can easily add and manage student information, record student growth, and evaluate student behavior and performance to better understand student development.
 
-# 以下是Java代码示例：
+## 以下是Java代码示例：
 
-# Here is a Java code example:
+## Here is a Java code example:
 
 // 学生类
 
