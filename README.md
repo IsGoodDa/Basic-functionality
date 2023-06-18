@@ -6,181 +6,288 @@
 
 ## Here is a Java code example:
 
-package com.ruoyi.system.domain;
+package com.ruoyi.kx.controller;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.ruoyi.common.annotation.Log;
 
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.core.controller.BaseController;
 
-import java.util.Date;
+import com.ruoyi.common.core.domain.AjaxResult;
 
-import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.page.TableDataInfo;
 
-import com.ruoyi.common.annotation.Excel.ColumnType;
+import com.ruoyi.common.enums.BusinessType;
 
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+
+import com.ruoyi.kx.bean.KxClassesAllotBean;
+
+import com.ruoyi.kx.domain.KxClasses;
+
+import com.ruoyi.kx.domain.KxClassesAllot;
+
+import com.ruoyi.kx.domain.KxTeacher;
+
+import com.ruoyi.kx.mapper.KxClassesMapper;
+
+import com.ruoyi.kx.mapper.KxTeacherMapper;
+
+import com.ruoyi.kx.service.IKxClassesAllotService;
+
+import com.ruoyi.system.domain.SysUserRole;
+
+import com.ruoyi.system.mapper.SysUserRoleMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.ui.ModelMap;
+
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.multipart.MultipartFile;
+
+
+import java.util.ArrayList;
+
+import java.util.List;
+
 
 /**
- * 系统访问记录表 sys_logininfor
- * 
- * @author ruoyi
+ * 学科分配Controller
+ *
+ * @author huang
+ * {@code @date} 2023-02-10
  */
-public class SysLogininfor extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+@Controller
 
-    /** ID */
-    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
-    private Long infoId;
+@RequestMapping("/kx/ClassAllot")
 
-    /** 用户账号 */
-    @Excel(name = "用户账号")
-    private String loginName;
+public class KxClassesAllotController extends BaseController {
 
-    /** 登录状态 0成功 1失败 */
-    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
-    private String status;
-
-    /** 登录IP地址 */
-    @Excel(name = "登录地址")
-    private String ipaddr;
-
-    /** 登录地点 */
-    @Excel(name = "登录地点")
-    private String loginLocation;
-
-    /** 浏览器类型 */
-    @Excel(name = "浏览器")
-    private String browser;
-
-    /** 操作系统 */
-    @Excel(name = "操作系统")
-    private String os;
-
-    /** 提示消息 */
-    @Excel(name = "提示消息")
-    private String msg;
-
-    /** 访问时间 */
-    @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date loginTime;
-
-    public Long getInfoId()
-    {
-        return infoId;
-    }
-
-    public void setInfoId(Long infoId)
-    {
-        this.infoId = infoId;
-    }
-
-    public String getLoginName()
-    {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName)
-    {
-        this.loginName = loginName;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-
-    public String getIpaddr()
-    {
-        return ipaddr;
-    }
-
-    public void setIpaddr(String ipaddr)
-    {
-        this.ipaddr = ipaddr;
-    }
-
-    public String getLoginLocation()
-    {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation)
-    {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser()
-    {
-        return browser;
-    }
-
-    public void setBrowser(String browser)
-    {
-        this.browser = browser;
-    }
-
-    public String getOs()
-    {
-        return os;
-    }
-
-    public void setOs(String os)
-    {
-        this.os = os;
-    }
-
-    public String getMsg()
-    {
-        return msg;
-    }
-
-    public void setMsg(String msg)
-    {
-        this.msg = msg;
-    }
-
-    public Date getLoginTime()
-    {
-        return loginTime;
-    }
-
-    public void setLoginTime(Date loginTime)
-    {
-        this.loginTime = loginTime;
-    }
-
-    @Override
-    public String toString() {
+    private final String prefix = "kx/ClassAllot";
     
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+    @Autowired
+    
+    KxClassesMapper kxClassesMapper;
+    
+    @Autowired
+    
+    KxTeacherMapper kxTeacherMapper;
+    
+    @Autowired
+    
+    private IKxClassesAllotService kxClassesAllotService;
+
+    //@RequiresPermissions("kx:ClassAllot:view")
+    
+    @GetMapping()
+    
+    public String ClassAllot(ModelMap modelMap) {
+    
+        modelMap.put("loginName", getSysUser().getLoginName());
         
-            .append("infoId", getInfoId())
+        List<KxClasses> kxClasses = kxClassesMapper.selectKxClassesList(null);
+        
+        
+        List<KxTeacher> kxTeachers = kxTeacherMapper.selectKxTeacherList(null);
+        kxClasses = kxClasses.subList(1, kxClasses.size());
+        
+
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByUserId(getUserId());
+        
+        boolean flag = false;
+        
+        for (SysUserRole sysUserRole : sysUserRoles) {
+        
+            Long roleId = sysUserRole.getRoleId();
             
-            .append("loginName", getLoginName())
+            if (roleId == 5) {
             
-            .append("ipaddr", getIpaddr())
+                flag = true;
+                
+                break;
+                
+            }
+        }
+        modelMap.put("flag", flag);
+        
+        if (!getSysUser().getLoginName().equals("admin") && !flag) {
+        
+            KxTeacher kxTeacher = kxTeacherMapper.selectKxTeacherByUserId(getUserId());
             
-            .append("loginLocation", getLoginLocation())
+            kxClasses = new ArrayList<>();
             
-            .append("browser", getBrowser())
+            kxClasses.add(kxClassesMapper.selectKxClassesByTeacherId(kxTeacher.getId()));
             
-            .append("os", getOs())
-            
-            .append("status", getStatus())
-            
-            .append("msg", getMsg())
-            
-            .append("loginTime", getLoginTime())
-            
-            .toString();
+        }
+
+        modelMap.put("classes", kxClasses);
+        
+        modelMap.put("teacher", kxTeachers);
+        
+        return prefix + "/ClassAllot";
+    }
+
+    @Autowired
+    SysUserRoleMapper sysUserRoleMapper;
+
+    /**
+     * 查询学科分配列表
+     */
+    //@RequiresPermissions("kx:ClassAllot:list")
+    @PostMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(KxClassesAllot kxClassesAllot) {
+        startPage();
+        List<KxClassesAllot> list = kxClassesAllotService.selectKxClassesAllotList(kxClassesAllot);
+        return getDataTable(list);
+    }
+
+    /**
+     * 导出学科分配列表
+     */
+    //@RequiresPermissions("kx:ClassAllot:export")
+    @Log(title = "学科分配", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(KxClassesAllot kxClassesAllot) {
+        List<KxClassesAllot> list = kxClassesAllotService.selectKxClassesAllotList(kxClassesAllot);
+        ExcelUtil<KxClassesAllot> util = new ExcelUtil<KxClassesAllot>(KxClassesAllot.class);
+        return util.exportExcel(list, "学科分配数据");
+    }
+
+    @Log(title = "学科分配", businessType = BusinessType.IMPORT)
+    //@RequiresPermissions("kx:ClassAllot:import")
+    @PostMapping("/importData")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
+        ExcelUtil<KxClassesAllotBean> util = new ExcelUtil<KxClassesAllotBean>(KxClassesAllotBean.class);
+        List<KxClassesAllotBean> kxClassesAllotList = util.importExcel(file.getInputStream());
+        String message = kxClassesAllotService.importKxClassesAllot(kxClassesAllotList, updateSupport, getLoginName());
+        return AjaxResult.success(message);
+    }
+
+    //@RequiresPermissions("kx:ClassAllot:view")
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult importTemplate() {
+        ExcelUtil<KxClassesAllotBean> util = new ExcelUtil<>(KxClassesAllotBean.class);
+
+        return util.importTemplateExcel(" 学科分配数据");
+    }
+
+    /**
+     * 新增学科分配
+     */
+    @GetMapping("/add")
+    public String add(ModelMap modelMap) {
+        modelMap.put("loginName", getSysUser().getLoginName());
+        List<KxClasses> kxClasses = kxClassesMapper.selectKxClassesList(null);
+        kxClasses = kxClasses.subList(1, kxClasses.size());
+
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByUserId(getUserId());
+        boolean flag = false;
+        for (SysUserRole sysUserRole : sysUserRoles) {
+            Long roleId = sysUserRole.getRoleId();
+            if (roleId == 5) {
+                flag = true;
+                break;
+            }
+        }
+        modelMap.put("flag", flag);
+        if (!flag) {
+            KxTeacher kxTeacher = kxTeacherMapper.selectKxTeacherByUserId(getUserId());
+            kxClasses = new ArrayList<>();
+            kxClasses.add(kxClassesMapper.selectKxClassesByTeacherId(kxTeacher.getId()));
+        }
+
+        modelMap.put("classes", kxClasses);
+        modelMap.put("teacher", kxTeacherMapper.selectKxTeacherList(null));
+        return prefix + "/add";
+    }
+
+    /**
+     * 新增保存学科分配
+     */
+    //@RequiresPermissions("kx:ClassAllot:add")
+    @Log(title = "学科分配", businessType = BusinessType.INSERT)
+    @PostMapping("/add")
+    @ResponseBody
+    public AjaxResult addSave(KxClassesAllot kxClassesAllot) {
+        KxTeacher teacher = kxTeacherMapper.selectKxTeacherById(kxClassesAllot.getTeacherId());
+        sysUserRoleMapper.insertUserAndRole(teacher.getUserId(), 6L);
+        return toAjax(kxClassesAllotService.insertKxClassesAllot(kxClassesAllot));
+    }
+
+    /**
+     * 修改学科分配
+     */
+
+    //@RequiresPermissions("kx:ClassAllot:edit")
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, ModelMap modelMap) {
+        KxClassesAllot kxClassesAllot = kxClassesAllotService.selectKxClassesAllotById(id);
+        modelMap.put("kxClassesAllot", kxClassesAllot);
+        modelMap.put("loginName", getSysUser().getLoginName());
+        List<KxClasses> kxClasses = kxClassesMapper.selectKxClassesList(null);
+        kxClasses = kxClasses.subList(1, kxClasses.size());
+
+        List<SysUserRole> sysUserRoles = sysUserRoleMapper.selectUserRoleByUserId(getUserId());
+
+        boolean flag = false;
+
+        for (SysUserRole sysUserRole : sysUserRoles) {
+            Long roleId = sysUserRole.getRoleId();
+            if (roleId == 5) {
+                flag = true;
+                break;
+            }
+        }
+        modelMap.put("flag", flag);
+        if (!flag) {
+            KxTeacher kxTeacher = kxTeacherMapper.selectKxTeacherByUserId(getUserId());
+            kxClasses = new ArrayList<>();
+            kxClasses.add(kxClassesMapper.selectKxClassesByTeacherId(kxTeacher.getId()));
+        }
+
+        modelMap.put("classes", kxClasses);
+        modelMap.put("teacher", kxTeacherMapper.selectKxTeacherList(null));
+        return prefix + "/edit";
+    }
+
+    /**
+     * 修改保存学科分配
+     */
+    //@RequiresPermissions("kx:ClassAllot:edit")
+    @Log(title = "学科分配", businessType = BusinessType.UPDATE)
+    @PostMapping("/edit")
+    @ResponseBody
+    public AjaxResult editSave(KxClassesAllot kxClassesAllot) {
+        KxTeacher teacher = kxTeacherMapper.selectKxTeacherById(kxClassesAllot.getTeacherId());
+        sysUserRoleMapper.insertUserAndRole(teacher.getUserId(), 6L);
+        return toAjax(kxClassesAllotService.updateKxClassesAllot(kxClassesAllot));
+    }
+
+    /**
+     * 删除学科分配
+     */
+    //@RequiresPermissions("kx:ClassAllot:remove")
+    @Log(title = "学科分配", businessType = BusinessType.DELETE)
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        String[] str = ids.split(",");
+        for (String s : str) {
+            KxClassesAllot kxClassesAllot = kxClassesAllotService.selectKxClassesAllotById(Long.valueOf(s));
+            KxTeacher teacher = kxTeacherMapper.selectKxTeacherById(kxClassesAllot.getTeacherId());
+            sysUserRoleMapper.deleteUserRoleByUserIdAndRoleId(teacher.getUserId(), 6L);
+        }
+        return toAjax(kxClassesAllotService.deleteKxClassesAllotByIds(ids));
     }
 }
+
 
 
 # <body>
