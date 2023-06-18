@@ -1,10 +1,15 @@
 ### 以下是Java代码示例：
 
 // 学生类
+
 public class Student {
+
     private String id;
+    
     private String name;
+    
     private String gender;
+    
     private int age;
 
     // 构造函数
